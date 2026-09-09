@@ -1,0 +1,6 @@
+{
+  "name": "Personal Portfolio",
+  "description": "Modern, premium personal portfolio with deep black aesthetic, bold typography, About Me, Skills & Services, Featured Projects, and Contact section.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
