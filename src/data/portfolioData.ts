@@ -33,25 +33,38 @@ export const PORTFOLIO_DATA = {
   featuredProjects: [
     {
       id: "p1",
-      title: "Nebula Spatial OS",
-      category: "Interactive 3D & WebGL",
-      year: "2025",
+      title: "Rivan Shop",
+      category: "Fullstack Application",
+      year: "2026",
       description:
-        "A real-time spatial user interface and 3D web operating concept built with WebGL and React.",
-      tags: ["Three.js", "React", "GLSL", "TypeScript"],
+        "A modern, responsive web shop template designed to showcase products and make browsing easy. Its clean layout and customizable design provide a flexible starting point for your online store.",
+      tags: [
+        "Railway",
+        "Django",
+        "React Vite",
+        "Javascript",
+        "Tailwind CSS",
+        "ChatGPT",
+      ],
     },
     {
       id: "p2",
-      title: "Vortex Design System",
-      category: "Design Engineering",
-      year: "2024",
+      title: "Personal Dashboard",
+      category: "Dashboard",
+      year: "2026",
       description:
-        "High-performance modular component architecture tailored for dark-mode enterprise software.",
-      tags: ["Design Systems", "Tailwind CSS", "Accessibility"],
+        "A modern, responsive personal dashboard template designed to help users manage and visualize their personal data and tasks. Its clean layout and customizable design provide a flexible starting point for your personal productivity needs.",
+      tags: [
+        "Pinterest",
+        "Prompt AI ChatGPT",
+        "Google AI Studio Gemini",
+        "Vite",
+        "Tailwind CSS",
+      ],
     },
     {
       id: "p3",
-      title: "Aether AI Canvas",
+      title: "Vortex Design System",
       category: "Fullstack Application",
       year: "2024",
       description:
@@ -72,16 +85,16 @@ export const PORTFOLIO_DATA = {
 import bryanHeroPortrait from "../assets/images/Me.png";
 import bryanAboutPortrait from "../assets/images/AboutSectionImage.jpg";
 import MyShop from "../assets/images/MyShop.png";
+import PersonalDashboard from "../assets/images/PersonalDashboard.png";
 import vortexProjectImg from "../assets/images/vortex_design_system_1788332612101.jpg";
-import luminaProjectImg from "../assets/images/lumina_brand_identity_1788332627433.jpg";
 import { col } from "motion/react-client";
 
 export const HERO_IMAGES = {
   portrait: bryanHeroPortrait,
   aboutPortrait: bryanAboutPortrait,
   MyShop: MyShop,
+  PersonalDashboard: PersonalDashboard,
   vortexProject: vortexProjectImg,
-  luminaProject: luminaProjectImg,
 };
 
 export const ABOUT_DATA = {
@@ -228,7 +241,7 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
   heading: "Featured Personal Projects",
   subtitle:
     "A curated selection of engineering experiments, interactive spatial platforms, and modular product ecosystems.",
-  categories: ["All", "Web Design", "E-commerce"] as const,
+  categories: ["All", "Web Design", "E-commerce", "Dashboard"] as const,
   projects: [
     {
       id: "rivan-shop",
@@ -254,6 +267,28 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       colSpan: 2, // This project spans 2 columns in the grid
     },
     {
+      id: "personal-dashboard",
+      title: "Personal Dashboard",
+      subtitle:
+        "A centralized hub for managing and visualizing your personal data and tasks.",
+      category: "Dashboard" as const,
+      year: "2026",
+      description:
+        "A modern, responsive personal dashboard template designed to help users manage and visualize their personal data and tasks. Its clean layout and customizable design provide a flexible starting point for your personal productivity needs.",
+      image: PersonalDashboard,
+      tags: [
+        "Pinterest",
+        "Prompt AI ChatGPT",
+        "Google AI Studio Gemini",
+        "Vite",
+        "Tailwind CSS",
+      ],
+      featured: true,
+      link: "https://productivity-dashboard-liard.vercel.app/",
+      github: "https://github.com/dayan11776/Productivity-Dashboard",
+      colSpan: 1, // This project spans 2 columns in the grid
+    },
+    {
       id: "vortex-design-system",
       title: "Vortex Design System",
       subtitle: "Modular Multi-Platform Enterprise Architecture",
@@ -274,29 +309,6 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       featured: false,
       link: "https://vortex-ds.internal",
       github: "https://github.com/bryantapel/vortex-design-system",
-      colSpan: 1, // This project spans 1 column in the grid
-    },
-    {
-      id: "lumina-brand-identity",
-      title: "Lumina Kinetic Identity",
-      subtitle: "Luxury Creative Direction & Generative Visuals",
-      category: "Web Design" as const,
-      year: "2024",
-      description:
-        "A futuristic brand identity for an audio-hardware company. Features generative typographic rules, tactile packaging concepts, and custom interactive 3D metallic brand elements.",
-      detailedDescription:
-        "Developed the complete digital and physical brand manifesto. Created parametric logo variations, procedural 3D motion assets, and dark minimalist editorial collateral.",
-      image: luminaProjectImg,
-      tags: [
-        "Brand Strategy",
-        "Kinetic Typography",
-        "3D Motion",
-        "Art Direction",
-        "Packaging",
-      ],
-      featured: false,
-      link: "https://lumina-brand.internal",
-      github: "https://github.com/bryantapel/lumina-identity",
       colSpan: 1, // This project spans 1 column in the grid
     },
   ],
