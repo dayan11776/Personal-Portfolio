@@ -511,7 +511,7 @@ export const ContactSection: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-4 text-neutral-400">
-          <span>San Francisco / Global</span>
+          <span>Bacoor Cavite, Philippines</span>
           <span>•</span>
           <a
             href="#hero-section"
