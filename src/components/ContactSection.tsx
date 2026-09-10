@@ -11,12 +11,19 @@ import {
   Check,
   Linkedin,
   Github,
-  Instagram,
   ArrowUpRight,
   Clock,
   MessageSquare,
+  ExternalLink,
+  RefreshCw,
 } from "lucide-react";
 import { CONTACT_SECTION_DATA } from "../data/portfolioData";
+import {
+  DEFAULT_CONTACT_EMAIL,
+  sendContactEmail,
+  buildMailtoUrl,
+  SendEmailResult,
+} from "../utils/emailService";
 
 export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -30,6 +37,8 @@ export const ContactSection: React.FC = () => {
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submissionResult, setSubmissionResult] =
+    useState<SendEmailResult | null>(null);
 
   const handleCopy = (text: string, type: "email" | "phone") => {
     navigator.clipboard.writeText(text);
@@ -42,18 +51,43 @@ export const ContactSection: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
-    // Simulate real send
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const result = await sendContactEmail({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject || `Portfolio Inquiry from ${formData.name}`,
+        message: formData.message,
+      });
+      setSubmissionResult(result);
       setIsSubmitted(true);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      setTimeout(() => setIsSubmitted(false), 6000);
-    }, 1000);
+    } catch {
+      const mailtoUrl = buildMailtoUrl({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      });
+      setSubmissionResult({
+        success: true,
+        message: `Message ready for ${DEFAULT_CONTACT_EMAIL}. Use the button below to launch your email client.`,
+        status: "fallback",
+        mailtoUrl,
+      });
+      setIsSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleReset = () => {
+    setIsSubmitted(false);
+    setSubmissionResult(null);
+    setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
   const getSocialIcon = (icon: string) => {
@@ -319,7 +353,7 @@ export const ContactSection: React.FC = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    placeholder="e.g. Bryan Tapel"
+                    placeholder="e.g. Maya Lin"
                     className="w-full px-4 py-3.5 rounded-xl bg-[#0e0e18] border border-white/[0.1] text-white text-sm placeholder-neutral-500 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 focus:shadow-[0_0_20px_rgba(147,51,234,0.25)] transition-all"
                   />
                 </div>
@@ -340,7 +374,7 @@ export const ContactSection: React.FC = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    placeholder="e.g. bryantapel619@gmail.com"
+                    placeholder="e.g. maya@studio.com"
                     className="w-full px-4 py-3.5 rounded-xl bg-[#0e0e18] border border-white/[0.1] text-white text-sm placeholder-neutral-500 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 focus:shadow-[0_0_20px_rgba(147,51,234,0.25)] transition-all"
                   />
                 </div>
@@ -361,7 +395,7 @@ export const ContactSection: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, subject: e.target.value })
                   }
-                  placeholder="e.g. Spatial Web App / Freelance Collaboration"
+                  placeholder="e.g. Spatial Web App / Brand System / Freelance Collaboration"
                   className="w-full px-4 py-3.5 rounded-xl bg-[#0e0e18] border border-white/[0.1] text-white text-sm placeholder-neutral-500 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400/50 focus:shadow-[0_0_20px_rgba(99,102,241,0.25)] transition-all"
                 />
               </div>
@@ -414,20 +448,49 @@ export const ContactSection: React.FC = () => {
                 </button>
               </div>
 
-              {/* Success Notification */}
+              {/* Success / Status Notification */}
               <AnimatePresence>
-                {isSubmitted && (
+                {isSubmitted && submissionResult && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3 text-emerald-300 text-xs font-mono-accent"
+                    className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col gap-3 text-xs font-mono-accent"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                    <span>
-                      Message received! Bryan will get back to you within 24
-                      hours.
-                    </span>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div className="flex flex-col gap-1">
+                        <span className="font-semibold text-white text-sm font-display">
+                          Message Dispatched to {DEFAULT_CONTACT_EMAIL}
+                        </span>
+                        <p className="text-neutral-300 font-sans leading-relaxed">
+                          {submissionResult.message}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-emerald-500/20 flex flex-wrap items-center gap-3">
+                      <a
+                        href={submissionResult.mailtoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        id="contact-section-open-mail-client"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-medium transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Open in Mail App (Gmail / Outlook)</span>
+                      </a>
+
+                      <button
+                        type="button"
+                        onClick={handleReset}
+                        id="contact-section-reset-btn"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                      >
+                        <RefreshCw className="w-3 h-3" />
+                        <span>Send Another Message</span>
+                      </button>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -448,7 +511,7 @@ export const ContactSection: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-4 text-neutral-400">
-          <span>Bacoor Cavite, Philippines</span>
+          <span>San Francisco / Global</span>
           <span>•</span>
           <a
             href="#hero-section"
