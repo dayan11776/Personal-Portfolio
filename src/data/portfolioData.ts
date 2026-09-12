@@ -64,12 +64,12 @@ export const PORTFOLIO_DATA = {
     },
     {
       id: "p3",
-      title: "Vortex Design System",
-      category: "Fullstack Application",
-      year: "2024",
+      title: "Acer Predator Laptop",
+      category: "Web Design",
+      year: "2026",
       description:
-        "Generative intelligence workspace featuring real-time multiplayer node graphs and neural tools.",
-      tags: ["AI Orchestration", "WebSocket", "Next.js"],
+        "AI design system with scrollable animation and interactive components for a seamless user experience.",
+      tags: ["ChatGPT", "Pinterest", "Google FLow AI", "EZGIF"],
     },
   ],
   socials: [
@@ -86,7 +86,7 @@ import bryanHeroPortrait from "../assets/images/Me.png";
 import bryanAboutPortrait from "../assets/images/AboutSectionImage.jpg";
 import MyShop from "../assets/images/MyShop.png";
 import PersonalDashboard from "../assets/images/PersonalDashboard.png";
-import vortexProjectImg from "../assets/images/vortex_design_system_1788332612101.jpg";
+import Acer from "../assets/images/Acer.png";
 import { col } from "motion/react-client";
 
 export const HERO_IMAGES = {
@@ -94,7 +94,7 @@ export const HERO_IMAGES = {
   aboutPortrait: bryanAboutPortrait,
   MyShop: MyShop,
   PersonalDashboard: PersonalDashboard,
-  vortexProject: vortexProjectImg,
+  Acer: Acer,
 };
 
 export const ABOUT_DATA = {
@@ -289,26 +289,18 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       colSpan: 1, // This project spans 2 columns in the grid
     },
     {
-      id: "vortex-design-system",
-      title: "Vortex Design System",
-      subtitle: "Modular Multi-Platform Enterprise Architecture",
+      id: "Acer Predator Laptop",
+      title: "Scrollable Animation Design System",
+      subtitle: "An Scrollable Animation Design System for AI tools.",
       category: "Web Design" as const,
-      year: "2024",
+      year: "2026",
       description:
-        "An ultra-refined, obsidian-themed design system featuring 80+ accessible component primitives, rigorous mathematical spacing scales, and automatic token synchronization across Figma and code.",
-      detailedDescription:
-        "Designed to unify product velocity across enterprise teams. Includes accessible micro-interactions, responsive typography scaling, and strict WCAG AAA contrast modes.",
-      image: vortexProjectImg,
-      tags: [
-        "Design System",
-        "Figma Tokens",
-        "Tailwind CSS",
-        "Storybook",
-        "Accessibility",
-      ],
+        "AI design system with scrollable animation and interactive components for a seamless user experience.",
+      image: Acer,
+      tags: ["ChatGPT", "Pinterest", "Google FLow AI", "EZGIF"],
       featured: false,
-      link: "https://vortex-ds.internal",
-      github: "https://github.com/bryantapel/vortex-design-system",
+      link: "https://scrollable-animation-laptop.vercel.app/",
+      github: "https://github.com/dayan11776/Scrollable-animation-Laptop",
       colSpan: 1, // This project spans 1 column in the grid
     },
   ],
