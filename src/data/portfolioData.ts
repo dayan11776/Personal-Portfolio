@@ -69,7 +69,13 @@ export const PORTFOLIO_DATA = {
       year: "2026",
       description:
         "AI design system with scrollable animation and interactive components for a seamless user experience.",
-      tags: ["ChatGPT", "Pinterest", "Google FLow AI", "EZGIF"],
+      tags: [
+        "ChatGPT",
+        "Pinterest",
+        "Google FLow AI",
+        "EZGIF",
+        "Antigravity IDE",
+      ],
     },
   ],
   socials: [
@@ -297,7 +303,13 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       description:
         "AI design system with scrollable animation and interactive components for a seamless user experience.",
       image: Acer,
-      tags: ["ChatGPT", "Pinterest", "Google FLow AI", "EZGIF"],
+      tags: [
+        "ChatGPT",
+        "Pinterest",
+        "Google FLow AI",
+        "EZGIF",
+        "Antigravity IDE",
+      ],
       featured: false,
       link: "https://scrollable-animation-laptop.vercel.app/",
       github: "https://github.com/dayan11776/Scrollable-animation-Laptop",
