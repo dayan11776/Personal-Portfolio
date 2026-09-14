@@ -88,6 +88,7 @@ export const FeaturedProjectsSection: React.FC<
         >
           {FEATURED_PROJECTS_SECTION_DATA.categories.map((category) => {
             const isActive = selectedCategory === category;
+
             return (
               <button
                 key={category}
@@ -132,7 +133,11 @@ export const FeaturedProjectsSection: React.FC<
                 onMouseEnter={() => setHoveredCardId(project.id)}
                 onMouseLeave={() => setHoveredCardId(null)}
                 className={`relative rounded-3xl bg-[#0b0b14]/90 border border-white/[0.08] hover:border-white/[0.22] backdrop-blur-xl transition-all duration-500 overflow-hidden group shadow-[0_10px_40px_rgba(0,0,0,0.6)] flex flex-col justify-between ${
-                  project.colSpan === 2 ? "lg:col-span-2" : "lg:col-span-1"
+                  project.colSpan === 2
+                    ? project.colSpan === 2 && selectedCategory === "All"
+                      ? "lg:col-span-2"
+                      : "lg:col-span-1"
+                    : "lg:col-span-1"
                 }`}
               >
                 {/* Subtle Blue-Purple Accent Glow on Hover */}
@@ -146,7 +151,9 @@ export const FeaturedProjectsSection: React.FC<
                 <div
                   className={`relative w-full overflow-hidden bg-neutral-950 cursor-pointer ${
                     project.colSpan === 2
-                      ? "h-72 sm:h-96 md:h-[420px]"
+                      ? project.colSpan === 2 && selectedCategory === "All"
+                        ? "h-72 sm:h-96 md:h-[420px]"
+                        : "h-64 sm:h-72"
                       : "h-64 sm:h-72"
                   }`}
                   onClick={() => onSelectProject(project)}
@@ -187,7 +194,10 @@ export const FeaturedProjectsSection: React.FC<
                         onClick={() => onSelectProject(project)}
                         className={`font-display font-bold text-white group-hover:text-purple-100 transition-colors cursor-pointer ${
                           project.colSpan === 2
-                            ? "text-2xl sm:text-3xl"
+                            ? project.colSpan === 2 &&
+                              selectedCategory === "All"
+                              ? "text-2xl sm:text-3xl"
+                              : "text-xl sm:text-2xl"
                             : "text-xl sm:text-2xl"
                         }`}
                       >
