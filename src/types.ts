@@ -6,13 +6,17 @@ export interface NavItem {
 
 export type VisualType = '3d' | 'portrait';
 
-export type ProjectCategoryFilter = 'All' | 'Web Design' | 'Development' | 'Branding';
+export type ProjectCategoryFilter =
+  | 'All'
+  | 'Web Design'
+  | 'E-Commerce'
+  | 'Dashboard';
 
 export interface FeaturedProject {
   id: string;
   title: string;
   subtitle: string;
-  category: 'Web Design' | 'Development' | 'Branding';
+  category: 'Web Design' | 'E-Commerce' | 'Dashboard';
   year: string;
   description: string;
   detailedDescription?: string;

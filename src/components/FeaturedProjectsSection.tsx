@@ -6,6 +6,8 @@ import {
   Filter,
   Layers,
   ExternalLink,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { FEATURED_PROJECTS_SECTION_DATA } from "../data/portfolioData";
 import { FeaturedProject, ProjectCategoryFilter } from "../types";
@@ -15,12 +17,15 @@ interface FeaturedProjectsSectionProps {
   onContactClick: () => void;
 }
 
+const MAX_PROJECTS_DISPLAY = 5;
+
 export const FeaturedProjectsSection: React.FC<
   FeaturedProjectsSectionProps
 > = ({ onSelectProject, onContactClick }) => {
   const [selectedCategory, setSelectedCategory] =
     useState<ProjectCategoryFilter>("All");
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState<boolean>(false);
 
   const filteredProjects = FEATURED_PROJECTS_SECTION_DATA.projects.filter(
     (project) => {
@@ -28,6 +33,26 @@ export const FeaturedProjectsSection: React.FC<
       return project.category === selectedCategory;
     },
   );
+
+  const displayedProjects = showAll
+    ? filteredProjects
+    : filteredProjects.slice(0, MAX_PROJECTS_DISPLAY);
+
+  const handleCategoryChange = (category: ProjectCategoryFilter) => {
+    setSelectedCategory(category);
+    setShowAll(false);
+  };
+
+  const handleToggleMore = () => {
+    if (showAll) {
+      setShowAll(false);
+      document
+        .getElementById("projects-heading")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      setShowAll(true);
+    }
+  };
 
   return (
     <section
@@ -88,11 +113,10 @@ export const FeaturedProjectsSection: React.FC<
         >
           {FEATURED_PROJECTS_SECTION_DATA.categories.map((category) => {
             const isActive = selectedCategory === category;
-
             return (
               <button
                 key={category}
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => handleCategoryChange(category)}
                 className={`relative px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap ${
                   isActive
                     ? "text-white font-semibold"
@@ -113,13 +137,14 @@ export const FeaturedProjectsSection: React.FC<
         </div>
       </motion.div>
 
-      {/* 3. Responsive Project Showcase Grid (First Project Spans 2 Columns for Visual Hierarchy) */}
+      {/* 3. Responsive Project Showcase Grid (Maximum 5 by default; First Project Spans 2 Columns) */}
       <div
         className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch"
         id="featured-projects-grid"
       >
         <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project, index) => {
+          {displayedProjects.map((project, index) => {
+            const isFirst = index === 0;
             const isHovered = hoveredCardId === project.id;
 
             return (
@@ -129,15 +154,11 @@ export const FeaturedProjectsSection: React.FC<
                 initial={{ opacity: 0, y: 25 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: (index % 5) * 0.08 }}
                 onMouseEnter={() => setHoveredCardId(project.id)}
                 onMouseLeave={() => setHoveredCardId(null)}
                 className={`relative rounded-3xl bg-[#0b0b14]/90 border border-white/[0.08] hover:border-white/[0.22] backdrop-blur-xl transition-all duration-500 overflow-hidden group shadow-[0_10px_40px_rgba(0,0,0,0.6)] flex flex-col justify-between ${
-                  project.colSpan === 2
-                    ? project.colSpan === 2 && selectedCategory === "All"
-                      ? "lg:col-span-2"
-                      : "lg:col-span-1"
-                    : "lg:col-span-1"
+                  isFirst ? "lg:col-span-2" : "lg:col-span-1"
                 }`}
               >
                 {/* Subtle Blue-Purple Accent Glow on Hover */}
@@ -150,11 +171,7 @@ export const FeaturedProjectsSection: React.FC<
                 {/* Top/Visual Container: Image Preview with Dark Gradient Overlay */}
                 <div
                   className={`relative w-full overflow-hidden bg-neutral-950 cursor-pointer ${
-                    project.colSpan === 2
-                      ? project.colSpan === 2 && selectedCategory === "All"
-                        ? "h-72 sm:h-96 md:h-[420px]"
-                        : "h-64 sm:h-72"
-                      : "h-64 sm:h-72"
+                    isFirst ? "h-72 sm:h-96 md:h-[420px]" : "h-64 sm:h-72"
                   }`}
                   onClick={() => onSelectProject(project)}
                 >
@@ -193,11 +210,8 @@ export const FeaturedProjectsSection: React.FC<
                       <h3
                         onClick={() => onSelectProject(project)}
                         className={`font-display font-bold text-white group-hover:text-purple-100 transition-colors cursor-pointer ${
-                          project.colSpan === 2
-                            ? project.colSpan === 2 &&
-                              selectedCategory === "All"
-                              ? "text-2xl sm:text-3xl"
-                              : "text-xl sm:text-2xl"
+                          isFirst
+                            ? "text-2xl sm:text-3xl"
                             : "text-xl sm:text-2xl"
                         }`}
                       >
@@ -243,6 +257,47 @@ export const FeaturedProjectsSection: React.FC<
           })}
         </AnimatePresence>
       </div>
+
+      {/* 4. "More Projects" Action Button */}
+      {filteredProjects.length > MAX_PROJECTS_DISPLAY && (
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="mt-12 flex flex-col items-center justify-center gap-3"
+        >
+          <button
+            onClick={handleToggleMore}
+            id="featured-projects-more-btn"
+            aria-expanded={showAll}
+            className="group relative inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-[#0d0d17]/90 hover:bg-[#151525] border border-white/[0.12] hover:border-purple-400/50 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.6)] hover:shadow-[0_0_30px_rgba(147,51,234,0.3)] cursor-pointer"
+          >
+            <div className="p-1.5 rounded-full bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+              {showAll ? (
+                <ChevronUp className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
+              ) : (
+                <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+              )}
+            </div>
+            <span>
+              {showAll
+                ? "Show Less Projects"
+                : `More Projects (${filteredProjects.length - MAX_PROJECTS_DISPLAY} remaining)`}
+            </span>
+            <span className="ml-1 px-2.5 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-[11px] font-mono-accent text-purple-300">
+              {showAll
+                ? `${filteredProjects.length} / ${filteredProjects.length}`
+                : `${MAX_PROJECTS_DISPLAY} / ${filteredProjects.length}`}
+            </span>
+          </button>
+
+          <p className="text-[11px] font-mono-accent text-neutral-500">
+            {showAll
+              ? `Displaying all ${filteredProjects.length} curated projects`
+              : `Displaying top ${MAX_PROJECTS_DISPLAY} of ${filteredProjects.length} curated projects`}
+          </p>
+        </motion.div>
+      )}
 
       {/* Bottom Exploration Banner */}
       <motion.div

@@ -95,6 +95,7 @@ import PersonalDashboard from "../assets/images/PersonalDashboard.png";
 import Acer from "../assets/images/Acer.png";
 import Construction from "../assets/images/Construction.png";
 import Robot from "../assets/images/Robot.png";
+import SneakerShoes from "../assets/images/SneakerShoes.png";
 import { col } from "motion/react-client";
 
 export const HERO_IMAGES = {
@@ -105,6 +106,7 @@ export const HERO_IMAGES = {
   Acer: Acer,
   Construction: Construction,
   Robot: Robot,
+  SneakerShoes: SneakerShoes,
 };
 
 export const ABOUT_DATA = {
@@ -274,7 +276,7 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       featured: true,
       link: "https://fs9-coral.vercel.app/",
       github: "https://github.com/dayan11776/fs9_training",
-      colSpan: 2, // This project spans 2 columns in the grid
+      // colSpan: 2, // This project spans 2 columns in the grid
     },
     {
       id: "personal-dashboard",
@@ -296,7 +298,7 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       featured: true,
       link: "https://productivity-dashboard-liard.vercel.app/",
       github: "https://github.com/dayan11776/Productivity-Dashboard",
-      colSpan: 1, // This project spans 2 columns in the grid
+      // colSpan: 1, // This project spans 2 columns in the grid
     },
     {
       id: "Acer Predator Laptop",
@@ -317,7 +319,7 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       featured: false,
       link: "https://scrollable-animation-laptop.vercel.app/",
       github: "https://github.com/dayan11776/Scrollable-animation-Laptop",
-      colSpan: 1, // This project spans 1 column in the grid
+      // colSpan: 1, // This project spans 1 column in the grid
     },
     {
       id: "Construction",
@@ -338,7 +340,7 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       featured: false,
       link: "https://construction-puce-one.vercel.app/",
       github: "https://github.com/dayan11776/Construction",
-      colSpan: 2, // This project spans 1 column in the grid
+      // colSpan: 2, // This project spans 1 column in the grid
     },
     {
       id: "3D Character Studio",
@@ -361,7 +363,23 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       featured: false,
       link: "https://3-d-character-studio-blush.vercel.app/",
       github: "https://github.com/dayan11776/3D-Character-Studio",
-      colSpan: 1, // This project spans 1 column in the grid
+      // colSpan: 1, // This project spans 1 column in the grid
+    },
+    {
+      id: "Sneakers Collection",
+      title: "Sneakers Collection",
+      subtitle:
+        "A sneaker shopping experience with an add-to-cart feature powered by React UseContext and useReducer",
+      category: "Web Design" as const,
+      year: "2026",
+      description:
+        "is a React shopping page that displays sneakers with product images, brands, prices, and ratings. Customers can add shoes to their cart and see the cart count update. The cart uses React UseContext to share its state across components and UseReducer to manage cart actions.",
+      image: SneakerShoes,
+      tags: ["Vite React", "Javascript", "Google Flow AI", "ChatGPT Codex"],
+      featured: false,
+      link: "https://sneaker-checkout-git-main-dayan11776s-projects.vercel.app/",
+      github: "https://github.com/dayan11776/3D-Character-Studio",
+      // colSpan: 1, // This project spans 1 column in the grid
     },
   ],
 };

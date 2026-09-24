@@ -12,7 +12,10 @@ import {
   ArrowRight,
   RefreshCw,
 } from "lucide-react";
-import { PORTFOLIO_DATA } from "../data/portfolioData";
+import {
+  CONTACT_SECTION_DATA,
+  PORTFOLIO_DATA,
+} from "../data/portfolioData";
 import {
   DEFAULT_CONTACT_EMAIL,
   sendContactEmail,
@@ -297,7 +300,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-2 text-xs text-neutral-500">
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>{PORTFOLIO_DATA.location}</span>
+                  <span>{CONTACT_SECTION_DATA.location}</span>
                 </div>
                 <button
                   type="submit"

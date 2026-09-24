@@ -324,9 +324,9 @@ export const ContactSection: React.FC = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="lg:col-span-7"
+          className="lg:col-span-7 h-full flex flex-col"
         >
-          <div className="relative p-6 sm:p-8 md:p-10 rounded-3xl bg-[#0b0b14]/90 border border-white/[0.09] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+          <div className="relative p-6 sm:p-8 md:p-10 rounded-3xl bg-[#0b0b14]/90 border border-white/[0.09] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] h-full flex-1 flex flex-col justify-between">
             {/* Subtle Inner Ambient Glow */}
             <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
