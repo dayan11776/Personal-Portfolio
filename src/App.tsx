@@ -18,16 +18,13 @@ import { ContactModal } from "./components/ContactModal";
 import { WorkPreviewModal } from "./components/WorkPreviewModal";
 import { ProjectDetailModal } from "./components/ProjectDetailModal";
 import { ResumeModal } from "./components/ResumeModal";
-import { CertificationPdfModal } from "./components/CertificationPdfModal";
 import { ChevronDown, Sparkles } from "lucide-react";
-import { FeaturedProject, Certification } from "./types";
+import { FeaturedProject } from "./types";
 
 export default function App() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isWorkOpen, setIsWorkOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
-  const [selectedCertificate, setSelectedCertificate] =
-    useState<Certification | null>(null);
   const [selectedProject, setSelectedProject] =
     useState<FeaturedProject | null>(null);
   const [activeNavSection, setActiveNavSection] = useState<string>("projects");
@@ -43,11 +40,6 @@ export default function App() {
       }
     } else if (section === "about") {
       const el = document.getElementById("about");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
-    } else if (section === "certifications") {
-      const el = document.getElementById("certifications");
       if (el) {
         el.scrollIntoView({ behavior: "smooth" });
       }
@@ -76,7 +68,7 @@ export default function App() {
   return (
     <main
       id="portfolio-hero-root"
-      className="relative min-h-screen w-full bg-[#030305] text-[#f4f4f6] flex flex-col justify-between overflow-x-hidden selection:bg-purple-500/30 selection:text-purple-200 scroll-smooth"
+      className="relative min-h-screen w-full bg-transparent text-[#f4f4f6] flex flex-col justify-between overflow-x-hidden selection:bg-purple-500/30 selection:text-purple-200 scroll-smooth"
     >
       {/* 1. Scroll-Driven Frame Animation Background */}
       <ScrollAnimationBackground />
@@ -135,22 +127,19 @@ export default function App() {
         </motion.button>
       </section>
 
-      {/* 4. About Me */}
+      {/* 4. Second Section: About Me */}
       <AboutSection
         onOpenResume={() => setIsResumeOpen(true)}
         onContactClick={() => setIsContactOpen(true)}
       />
 
       {/* 5. Certifications Section: Verified Credentials & Licenses */}
-      <CertificationsSection
-        onContactClick={() => setIsContactOpen(true)}
-        onSelectCert={(cert) => setSelectedCertificate(cert)}
-      />
+      <CertificationsSection onContactClick={() => setIsContactOpen(true)} />
 
-      {/* 6. Skills & Services */}
+      {/* 5. Third Section: Skills & Services */}
       <SkillsServicesSection onContactClick={() => setIsContactOpen(true)} />
 
-      {/* 7. Featured Projects */}
+      {/* 6. Fourth Section: Featured Projects */}
       <FeaturedProjectsSection
         onSelectProject={(project) => setSelectedProject(project)}
         onContactClick={() => {
@@ -160,10 +149,10 @@ export default function App() {
         }}
       />
 
-      {/* 8. Contact Section (with integrated bottom copyright footer) */}
+      {/* 7. Fifth Section: Contact (with integrated bottom copyright footer) */}
       <ContactSection />
 
-      {/* 9. Interactive Modals */}
+      {/* 8. Interactive Modals */}
       <ContactModal
         isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}
@@ -178,11 +167,6 @@ export default function App() {
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
         onContactClick={() => setIsContactOpen(true)}
-      />
-
-      <CertificationPdfModal
-        cert={selectedCertificate}
-        onClose={() => setSelectedCertificate(null)}
       />
 
       <WorkPreviewModal
