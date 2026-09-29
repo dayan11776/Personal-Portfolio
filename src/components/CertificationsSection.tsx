@@ -28,7 +28,7 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
   const [activeFilter, setActiveFilter] = useState<string>("All");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const filterOptions = ["All", "2025", "2024", "2023"];
+  const filterOptions = ["All", "2026", "2022"];
 
   const filteredCerts =
     activeFilter === "All"
