@@ -436,3 +436,64 @@ export const CONTACT_SECTION_DATA = {
     },
   ],
 };
+
+export const CERTIFICATIONS_DATA = {
+  badge: "CREDENTIALS & LICENSES",
+  heading: "Certifications",
+  subtitle:
+    "Formally verified accreditations validating mastery across frontend engineering, cloud architecture, UI/UX systems, and 3D graphics.",
+  certifications: [
+    {
+      id: "Microsoft-Microsoft-Azure-AI-Fundamental",
+      title: "Microsoft Certified: Azure AI Fundamental",
+      year: "2022",
+      issuer: "MICROSOFT",
+      credentialId: "A60C73CD3DE7B657",
+      category: "Artificial Intelligence / Cloud Computing",
+      pdfFileName: "AI-900.pdf.pdf",
+      pdfUrl: "/pdf/AI-900.pdf",
+    },
+    {
+      id: "Microsoft-Certified-Azure-Fundamentals",
+      title: "Microsoft Certified: Azure Fundamentals",
+      year: "2022",
+      issuer: "Microsoft",
+      credentialId: "4E093A2C69629749",
+      category: "Cloud Computing / Microsoft Azure",
+      pdfFileName: "AZ-900.pdf",
+      pdfUrl: "/pdf/AZ-900.pdf",
+    },
+    {
+      id: "ceMicrosoftrt-Certified-Power-Platform-Fundamentals",
+      title: "Microsoft Certified: Power Platform Fundamentals",
+      year: "2022",
+      issuer: "Microsoft",
+      credentialId: "64F9823DABA1BD64",
+      category:
+        "Business Applications / Low-Code Development (Microsoft Power Platform)",
+      pdfFileName: "PL-900.pdf",
+      pdfUrl: "/pdf/PL-900.pdf",
+    },
+    {
+      id: "Microsoft-Certified-Security-Compliance",
+      title:
+        "Microsoft Certified: Security, Compliance, and Identity Fundamentals",
+      year: "2022",
+      issuer: "Microsoft",
+      credentialId: "125D6ED607E85377",
+      category: "Cybersecurity / Security, Compliance, and Identity (SC-900)",
+      pdfFileName: "SC-900.pdf",
+      pdfUrl: "/pdf/SC-900.pdf",
+    },
+    {
+      id: "Microsoft-Certified-Security-Compliance",
+      title: "Full Stack Web Development Training",
+      year: "2026",
+      issuer: "RivanCyber Training Institute Inc.",
+      credentialId: "",
+      category: "Full-Stack Web Development",
+      pdfFileName: "Fullstack.pdf",
+      pdfUrl: "/pdf/Fullstack.pdf",
+    },
+  ],
+};

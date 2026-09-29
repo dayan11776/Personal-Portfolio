@@ -3,53 +3,55 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
-import { Navbar } from './components/Navbar';
-import { HeroContent } from './components/HeroContent';
-import { HeroVisual } from './components/HeroVisual';
-import { AboutSection } from './components/AboutSection';
-import { SkillsServicesSection } from './components/SkillsServicesSection';
-import { FeaturedProjectsSection } from './components/FeaturedProjectsSection';
-import { ContactSection } from './components/ContactSection';
-import { ScrollAnimationBackground } from './components/ScrollAnimationBackground';
-import { ContactModal } from './components/ContactModal';
-import { WorkPreviewModal } from './components/WorkPreviewModal';
-import { ProjectDetailModal } from './components/ProjectDetailModal';
-import { ResumeModal } from './components/ResumeModal';
-import { ChevronDown, Sparkles } from 'lucide-react';
-import { FeaturedProject } from './types';
+import React, { useState } from "react";
+import { motion } from "motion/react";
+import { Navbar } from "./components/Navbar";
+import { HeroContent } from "./components/HeroContent";
+import { HeroVisual } from "./components/HeroVisual";
+import { AboutSection } from "./components/AboutSection";
+import { CertificationsSection } from "./components/CertificationsSection";
+import { SkillsServicesSection } from "./components/SkillsServicesSection";
+import { FeaturedProjectsSection } from "./components/FeaturedProjectsSection";
+import { ContactSection } from "./components/ContactSection";
+import { ScrollAnimationBackground } from "./components/ScrollAnimationBackground";
+import { ContactModal } from "./components/ContactModal";
+import { WorkPreviewModal } from "./components/WorkPreviewModal";
+import { ProjectDetailModal } from "./components/ProjectDetailModal";
+import { ResumeModal } from "./components/ResumeModal";
+import { ChevronDown, Sparkles } from "lucide-react";
+import { FeaturedProject } from "./types";
 
 export default function App() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isWorkOpen, setIsWorkOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<FeaturedProject | null>(null);
-  const [activeNavSection, setActiveNavSection] = useState<string>('projects');
+  const [selectedProject, setSelectedProject] =
+    useState<FeaturedProject | null>(null);
+  const [activeNavSection, setActiveNavSection] = useState<string>("projects");
 
   const handleNavClick = (section: string) => {
     setActiveNavSection(section);
-    if (section === 'contact') {
-      const el = document.getElementById('contact');
+    if (section === "contact") {
+      const el = document.getElementById("contact");
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+        el.scrollIntoView({ behavior: "smooth" });
       } else {
         setIsContactOpen(true);
       }
-    } else if (section === 'about') {
-      const el = document.getElementById('about');
+    } else if (section === "about") {
+      const el = document.getElementById("about");
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+        el.scrollIntoView({ behavior: "smooth" });
       }
-    } else if (section === 'skills') {
-      const el = document.getElementById('skills');
+    } else if (section === "skills") {
+      const el = document.getElementById("skills");
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+        el.scrollIntoView({ behavior: "smooth" });
       }
-    } else if (section === 'projects') {
-      const el = document.getElementById('projects');
+    } else if (section === "projects") {
+      const el = document.getElementById("projects");
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+        el.scrollIntoView({ behavior: "smooth" });
       }
     } else {
       setIsWorkOpen(true);
@@ -57,14 +59,14 @@ export default function App() {
   };
 
   const scrollToAbout = () => {
-    const el = document.getElementById('about');
+    const el = document.getElementById("about");
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   return (
-    <main 
+    <main
       id="portfolio-hero-root"
       className="relative min-h-screen w-full bg-transparent text-[#f4f4f6] flex flex-col justify-between overflow-x-hidden selection:bg-purple-500/30 selection:text-purple-200 scroll-smooth"
     >
@@ -72,26 +74,26 @@ export default function App() {
       <ScrollAnimationBackground />
 
       {/* 2. Sleek Floating Top Navigation Bar */}
-      <Navbar 
+      <Navbar
         onNavClick={handleNavClick}
         onContactClick={() => {
-          const el = document.getElementById('contact');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          const el = document.getElementById("contact");
+          if (el) el.scrollIntoView({ behavior: "smooth" });
           else setIsContactOpen(true);
         }}
       />
 
       {/* 3. Hero Section Main Canvas (Full Screen, High Whitespace Minimalist Layout) */}
-      <section 
+      <section
         id="hero-section"
         className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 sm:px-10 md:px-12 lg:px-16 pt-28 pb-16 md:py-32 max-w-7xl mx-auto w-full min-h-screen"
       >
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 xl:gap-16 items-center">
           {/* Left Column: Typography, Titles, Introductions & Action CTAs (Col 7 on Desktop) */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <HeroContent 
+            <HeroContent
               onViewWork={() => {
-                setActiveNavSection('projects');
+                setActiveNavSection("projects");
                 setIsWorkOpen(true);
               }}
               onContact={() => setIsContactOpen(true)}
@@ -118,41 +120,42 @@ export default function App() {
           </span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
             <ChevronDown className="w-4 h-4 text-neutral-400 group-hover:text-purple-300" />
           </motion.div>
         </motion.button>
       </section>
 
-      {/* 4. Second Section: About Me */}
-      <AboutSection 
+      {/* 4. About Me */}
+      <AboutSection
         onOpenResume={() => setIsResumeOpen(true)}
         onContactClick={() => setIsContactOpen(true)}
       />
 
-      {/* 5. Third Section: Skills & Services */}
-      <SkillsServicesSection
-        onContactClick={() => setIsContactOpen(true)}
-      />
+      {/* 5. Certifications Section: Verified Credentials & Licenses */}
+      <CertificationsSection onContactClick={() => setIsContactOpen(true)} />
 
-      {/* 6. Fourth Section: Featured Projects */}
+      {/* 6. Skills & Services */}
+      <SkillsServicesSection onContactClick={() => setIsContactOpen(true)} />
+
+      {/* 7. Featured Projects */}
       <FeaturedProjectsSection
         onSelectProject={(project) => setSelectedProject(project)}
         onContactClick={() => {
-          const el = document.getElementById('contact');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          const el = document.getElementById("contact");
+          if (el) el.scrollIntoView({ behavior: "smooth" });
           else setIsContactOpen(true);
         }}
       />
 
-      {/* 7. Fifth Section: Contact (with integrated bottom copyright footer) */}
+      {/* 8. Contact (with integrated bottom copyright footer) */}
       <ContactSection />
 
-      {/* 8. Interactive Modals */}
-      <ContactModal 
-        isOpen={isContactOpen} 
-        onClose={() => setIsContactOpen(false)} 
+      {/* 9. Interactive Modals */}
+      <ContactModal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
       />
 
       <ResumeModal
@@ -166,8 +169,8 @@ export default function App() {
         onContactClick={() => setIsContactOpen(true)}
       />
 
-      <WorkPreviewModal 
-        isOpen={isWorkOpen} 
+      <WorkPreviewModal
+        isOpen={isWorkOpen}
         onClose={() => setIsWorkOpen(false)}
         activeSection={activeNavSection}
         onContactClick={() => {
