@@ -12,10 +12,7 @@ import {
   ArrowRight,
   RefreshCw,
 } from "lucide-react";
-import {
-  CONTACT_SECTION_DATA,
-  PORTFOLIO_DATA,
-} from "../data/portfolioData";
+import { CONTACT_SECTION_DATA, PORTFOLIO_DATA } from "../data/portfolioData";
 import {
   DEFAULT_CONTACT_EMAIL,
   sendContactEmail,

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ArrowUpRight, Sparkles } from 'lucide-react';
-import { NavItem } from '../types';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Menu, X, ArrowUpRight, Sparkles } from "lucide-react";
+import { NavItem } from "../types";
 
 interface NavbarProps {
   onNavClick: (section: string) => void;
@@ -9,20 +9,35 @@ interface NavbarProps {
 }
 
 const NAV_LINKS: NavItem[] = [
-  { label: 'About', href: '#about', description: 'Background & Design Philosophy' },
-  { label: 'Skills', href: '#skills', description: 'Tech Stack & Capabilities' },
-  { label: 'Projects', href: '#projects', description: 'Selected Works & Case Studies' },
-  { label: 'Contact', href: '#contact', description: 'Get in Touch' },
+  {
+    label: "About",
+    href: "#about",
+    description: "Background & Design Philosophy",
+  },
+  {
+    label: "Skills",
+    href: "#skills",
+    description: "Tech Stack & Capabilities",
+  },
+  {
+    label: "Projects",
+    href: "#projects",
+    description: "Selected Works & Case Studies",
+  },
+  { label: "Contact", href: "#contact", description: "Get in Touch" },
 ];
 
-export const Navbar: React.FC<NavbarProps> = ({ onNavClick, onContactClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  onNavClick,
+  onContactClick,
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeHover, setActiveHover] = useState<string | null>(null);
 
   const handleLinkClick = (e: React.MouseEvent, label: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    if (label.toLowerCase() === 'contact') {
+    if (label.toLowerCase() === "contact") {
       onContactClick();
     } else {
       onNavClick(label.toLowerCase());
@@ -32,14 +47,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick, onContactClick }) =>
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-5 md:px-12 max-w-7xl mx-auto w-full">
       {/* Brand Monogram / Identity Card */}
-      <a 
-        href="#" 
+      <a
+        href="#"
         id="navbar-brand-logo"
         className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.06] hover:border-white/[0.15] hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 group text-white focus:outline-none"
         aria-label="Bryan Tapel Portfolio Home"
         onClick={(e) => {
           e.preventDefault();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       >
         <div className="relative flex items-center justify-center w-7 h-7 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md transition-all duration-300 group-hover:border-purple-500/50 group-hover:bg-purple-500/10">
@@ -55,7 +70,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick, onContactClick }) =>
       </a>
 
       {/* Desktop Navigation Bar (Subtle Glassmorphic Pill) */}
-      <nav 
+      <nav
         id="desktop-navigation-pill"
         className="hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
       >
@@ -75,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick, onContactClick }) =>
                 <motion.span
                   layoutId="nav-pill-hover"
                   className="absolute inset-0 rounded-full bg-white/[0.08] -z-10"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
               {item.label}
@@ -105,7 +120,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick, onContactClick }) =>
           className="p-2.5 rounded-xl bg-white/[0.05] border border-white/[0.1] text-neutral-200 hover:text-white focus:outline-none"
           aria-label="Toggle Navigation Menu"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? (
+            <X className="w-5 h-5" />
+          ) : (
+            <Menu className="w-5 h-5" />
+          )}
         </button>
       </div>
 
@@ -119,7 +138,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick, onContactClick }) =>
             transition={{ duration: 0.2 }}
             className="absolute top-20 left-6 right-6 p-5 rounded-2xl bg-[#0b0b10]/95 border border-white/[0.12] backdrop-blur-2xl shadow-2xl flex flex-col gap-3 md:hidden z-50"
           >
-            <div className="text-xs uppercase font-mono-accent text-neutral-500 tracking-wider px-2">Navigation</div>
+            <div className="text-xs uppercase font-mono-accent text-neutral-500 tracking-wider px-2">
+              Navigation
+            </div>
             {NAV_LINKS.map((item) => (
               <a
                 key={item.label}
@@ -129,7 +150,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick, onContactClick }) =>
                 className="flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.06] text-neutral-200 hover:text-white text-base font-medium transition-colors"
               >
                 <span>{item.label}</span>
-                <span className="text-xs text-neutral-500 font-normal">{item.description}</span>
+                <span className="text-xs text-neutral-500 font-normal">
+                  {item.description}
+                </span>
               </a>
             ))}
             <div className="pt-2 border-t border-white/[0.08]">
