@@ -96,6 +96,7 @@ import Acer from "../assets/images/Acer.png";
 import Construction from "../assets/images/Construction.png";
 import Robot from "../assets/images/Robot.png";
 import SneakerShoes from "../assets/images/SneakerShoes.png";
+import CRUDFirebase from "../assets/images/CRUDFirebase.png";
 import { col } from "motion/react-client";
 
 export const HERO_IMAGES = {
@@ -107,6 +108,7 @@ export const HERO_IMAGES = {
   Construction: Construction,
   Robot: Robot,
   SneakerShoes: SneakerShoes,
+  CRUDFirebase: CRUDFirebase,
 };
 
 export const ABOUT_DATA = {
@@ -253,7 +255,13 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
   heading: "Featured Personal Projects",
   subtitle:
     "A curated selection of engineering experiments, interactive spatial platforms, and modular product ecosystems.",
-  categories: ["All", "Web Design", "E-Commerce", "Dashboard"] as const,
+  categories: [
+    "All",
+    "Web Design",
+    "E-Commerce",
+    "Dashboard",
+    "Web Fullstack",
+  ] as const,
   projects: [
     {
       id: "rivan-shop",
@@ -379,6 +387,27 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       featured: false,
       link: "https://sneaker-checkout-git-main-dayan11776s-projects.vercel.app/",
       github: "https://github.com/dayan11776/3D-Character-Studio",
+      // colSpan: 1, // This project spans 1 column in the grid
+    },
+    {
+      id: "CRUD Contact",
+      title: "CRUD Contact",
+      subtitle: "Manage your contacts with ease",
+      category: "Web Fullstack" as const,
+      year: "2026",
+      description:
+        "A CRUD Contact Register lets you add, view, update, and delete contact information in one organized place.",
+      image: CRUDFirebase,
+      tags: [
+        "Vite React",
+        "Typescript",
+        "Google Flow AI",
+        "ChatGPT Codex",
+        "Firebase",
+      ],
+      featured: false,
+      link: "https://crud-firebase-beta-one.vercel.app/",
+      github: "https://github.com/dayan11776/CRUDFirebase",
       // colSpan: 1, // This project spans 1 column in the grid
     },
   ],
