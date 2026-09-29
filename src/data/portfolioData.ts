@@ -440,8 +440,6 @@ export const CONTACT_SECTION_DATA = {
 export const CERTIFICATIONS_DATA = {
   badge: "CREDENTIALS & LICENSES",
   heading: "Certifications",
-  subtitle:
-    "Formally verified accreditations validating mastery across frontend engineering, cloud architecture, UI/UX systems, and 3D graphics.",
   certifications: [
     {
       id: "Microsoft-Microsoft-Azure-AI-Fundamental",

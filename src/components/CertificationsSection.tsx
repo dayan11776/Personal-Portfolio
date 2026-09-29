@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   FileText,
   Download,
   Eye,
   Calendar,
-  ShieldCheck,
   ExternalLink,
   X,
   Award,
   Printer,
-  Sparkles,
   CheckCircle2,
-  FileCheck,
+  Copy,
+  Check,
+  ShieldCheck,
 } from "lucide-react";
 import { CERTIFICATIONS_DATA } from "../data/portfolioData";
-import { Certification, CertificationCategoryFilter } from "../types";
-import {
-  downloadCertificatePdf,
-  getCertificatePdfBlobUrl,
-} from "../utils/certificatePdf";
+import { Certification } from "../types";
 
 interface CertificationsSectionProps {
   onContactClick?: () => void;
@@ -30,9 +26,8 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
 }) => {
   const [selectedCertForPdf, setSelectedCertForPdf] =
     useState<Certification | null>(null);
-  const [activePdfUrl, setActivePdfUrl] = useState<string | null>(null);
-  const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const filterOptions = ["All", "2026", "2022"];
 
@@ -43,39 +38,16 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
           (c) => c.year === activeFilter,
         );
 
-  // When a cert is selected for PDF viewing, create its Blob URL
-  useEffect(() => {
-    if (selectedCertForPdf) {
-      try {
-        const url = getCertificatePdfBlobUrl(selectedCertForPdf);
-        setActivePdfUrl(url);
-        return () => {
-          URL.revokeObjectURL(url);
-        };
-      } catch (err) {
-        console.error("Error creating PDF preview URL:", err);
-      }
-    } else {
-      setActivePdfUrl(null);
-    }
-  }, [selectedCertForPdf]);
-
-  const handleDownloadPdf = (e: React.MouseEvent, cert: Certification) => {
+  const handleCopyId = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    setDownloadingId(cert.id);
-    try {
-      downloadCertificatePdf(cert);
-    } catch (err) {
-      console.error("Failed to download PDF:", err);
-    } finally {
-      setTimeout(() => {
-        setDownloadingId(null);
-      }, 1000);
-    }
+    navigator.clipboard.writeText(id);
+    setCopiedId(id);
+    setTimeout(() => {
+      setCopiedId(null);
+    }, 2000);
   };
 
   const handlePrintPdf = () => {
-    if (!activePdfUrl) return;
     const iframe = document.getElementById(
       "pdf-preview-frame",
     ) as HTMLIFrameElement;
@@ -87,34 +59,29 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
   return (
     <section
       id="certifications"
-      className="relative z-10 w-full py-24 md:py-32 px-6 sm:px-10 md:px-12 lg:px-16 max-w-7xl mx-auto border-t border-white/[0.06]"
+      className="relative z-10 w-full py-16 sm:py-24 md:py-32 px-4 sm:px-8 md:px-12 lg:px-16 max-w-7xl mx-auto border-t border-white/[0.06]"
     >
       {/* Ambient background glows */}
-      <div className="absolute top-1/4 left-1/4 w-[450px] h-[450px] rounded-full bg-purple-600/10 blur-[140px] pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-1/4 w-[420px] h-[420px] rounded-full bg-blue-600/10 blur-[130px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 left-1/4 w-[320px] sm:w-[450px] h-[320px] sm:h-[450px] rounded-full bg-purple-600/10 blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute bottom-10 right-1/4 w-[300px] sm:w-[420px] h-[300px] sm:h-[420px] rounded-full bg-blue-600/10 blur-[110px] pointer-events-none -z-10" />
 
       {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-10 sm:mb-12">
         <div className="max-w-2xl">
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-2.5 sm:mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-            <span className="text-xs font-mono-accent uppercase tracking-widest text-purple-400">
-              Verified Credentials
+            <span className="text-[11px] sm:text-xs font-mono-accent uppercase tracking-widest text-purple-400">
+              {CERTIFICATIONS_DATA.badge}
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">
-            Certifications
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-3 sm:mb-4">
+            {CERTIFICATIONS_DATA.heading}
           </h2>
-
-          <p className="text-neutral-400 text-base sm:text-lg leading-relaxed">
-            Officially verified accreditations with downloadable and viewable
-            PDF certificates.
-          </p>
         </div>
 
         {/* Filter by Year */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar self-start md:self-auto">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar self-start md:self-auto w-full md:w-auto">
           {filterOptions.map((yearOption) => {
             const isActive = activeFilter === yearOption;
             const count =
@@ -128,7 +95,7 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
               <button
                 key={yearOption}
                 onClick={() => setActiveFilter(yearOption)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium tracking-wide transition-all cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-medium tracking-wide transition-all cursor-pointer whitespace-nowrap ${
                   isActive
                     ? "bg-white text-black font-bold shadow-lg"
                     : "bg-white/[0.03] hover:bg-white/[0.07] text-neutral-400 hover:text-white border border-white/[0.08]"
@@ -138,7 +105,7 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
                 <span
                   className={`text-[10px] px-1.5 py-0.5 rounded-md ${
                     isActive
-                      ? "bg-black/15 text-neutral-900"
+                      ? "bg-black/15 text-neutral-900 font-bold"
                       : "bg-white/[0.08] text-neutral-400"
                   }`}
                 >
@@ -153,11 +120,11 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
       {/* Grid of Certification Cards Displaying Title, Year & PDF File */}
       <motion.div
         layout
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7"
       >
         <AnimatePresence mode="popLayout">
           {filteredCerts.map((cert, index) => {
-            const isDownloading = downloadingId === cert.id;
+            const isCopied = copiedId === cert.credentialId;
 
             return (
               <motion.div
@@ -167,7 +134,7 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="relative group flex flex-col justify-between rounded-3xl bg-[#090912]/80 border border-white/[0.09] hover:border-purple-500/40 p-5 sm:p-6 backdrop-blur-xl transition-all duration-300 shadow-[0_12px_36px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_40px_rgba(168,85,247,0.15)] hover:-translate-y-1"
+                className="relative group flex flex-col justify-between rounded-2xl sm:rounded-3xl bg-[#090912]/80 border border-white/[0.09] hover:border-purple-500/40 p-4 sm:p-6 backdrop-blur-xl transition-all duration-300 shadow-[0_12px_36px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_40px_rgba(168,85,247,0.15)] hover:-translate-y-1"
               >
                 {/* Top Subtle Accent Rim */}
                 <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:via-purple-500/50 transition-colors" />
@@ -176,9 +143,9 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
                   {/* Visual PDF File Certificate Cover / Document Preview */}
                   <div
                     onClick={() => setSelectedCertForPdf(cert)}
-                    className="relative w-full aspect-[16/10] mb-5 rounded-2xl bg-[#0e0e18] border border-white/[0.1] hover:border-purple-400/50 overflow-hidden cursor-pointer group/pdf p-4 flex flex-col justify-between transition-all duration-300 shadow-inner"
+                    className="relative w-full aspect-[16/10] mb-4 sm:mb-5 rounded-xl sm:rounded-2xl bg-[#0e0e18] border border-white/[0.1] hover:border-purple-400/50 overflow-hidden cursor-pointer group/pdf p-3.5 sm:p-4 flex flex-col justify-between transition-all duration-300 shadow-inner"
                   >
-                    {/* Elegant Certificate Document Mockup Background */}
+                    {/* Certificate Mockup Background */}
                     <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-transparent to-black/40 pointer-events-none" />
 
                     {/* Decorative certificate border lines */}
@@ -202,15 +169,22 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
 
                     {/* PDF Certificate Center Seal & Authority */}
                     <div className="relative z-10 my-auto text-center px-2">
-                      <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)] group-hover/pdf:scale-110 transition-transform">
-                        <Award className="w-5 h-5 text-amber-400" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1.5 sm:mb-2 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)] group-hover/pdf:scale-110 transition-transform">
+                        <Award className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
                       </div>
-                      <div className="text-[11px] font-mono-accent text-neutral-400 uppercase tracking-widest">
+                      <div className="text-[10px] sm:text-[11px] font-mono-accent text-neutral-400 uppercase tracking-widest">
                         {cert.issuer}
                       </div>
                       <div className="text-xs font-semibold text-white/90 line-clamp-1 mt-0.5">
                         {cert.title}
                       </div>
+                    </div>
+
+                    {/* PDF Footer Bar */}
+                    <div className="relative z-10 flex items-center justify-between text-[10px] text-neutral-500 pt-1 border-t border-white/[0.06] font-mono">
+                      <span className="text-purple-400 group-hover/pdf:underline flex items-center gap-1 font-sans">
+                        Preview PDF <Eye className="w-3 h-3" />
+                      </span>
                     </div>
 
                     {/* Hover Overlay with "Click to View PDF" Prompt */}
@@ -221,12 +195,12 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
                   </div>
 
                   {/* 1. Title */}
-                  <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors mb-2 leading-snug line-clamp-2">
+                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-purple-300 transition-colors mb-2 leading-snug line-clamp-2">
                     {cert.title}
                   </h3>
 
                   {/* 2. Year & Issuer Info */}
-                  <div className="flex items-center gap-2 text-xs text-neutral-400 mb-5">
+                  <div className="flex items-center gap-2 text-xs text-neutral-400 mb-3">
                     <span className="font-semibold text-neutral-200">
                       {cert.issuer}
                     </span>
@@ -236,14 +210,34 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
                       <span>Year {cert.year}</span>
                     </div>
                   </div>
+
+                  {/*Credential ID */}
+                  {cert.credentialId && (
+                    <>
+                      <div className="flex items-center justify-between text-[11px] text-neutral-400 font-mono mb-4 pt-2 border-t border-white/[0.05]">
+                        <button
+                          onClick={(e) => handleCopyId(e, cert.credentialId)}
+                          title="Click to copy Credential ID"
+                          className="inline-flex items-center gap-1 text-neutral-400 hover:text-white transition-colors cursor-pointer shrink-0"
+                        >
+                          <span>ID: {cert.credentialId}</span>
+                          {isCopied ? (
+                            <Check className="w-3 h-3 text-emerald-400" />
+                          ) : (
+                            <Copy className="w-3 h-3 opacity-60" />
+                          )}
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* 3. PDF File Actions: View PDF & Download PDF */}
-                <div className="pt-4 border-t border-white/[0.06] flex items-center gap-2.5">
+                <div className="pt-3 border-t border-white/[0.06] flex items-center gap-2 sm:gap-2.5">
                   {/* View PDF Button */}
                   <button
                     onClick={() => setSelectedCertForPdf(cert)}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.1] hover:border-purple-400/40 text-xs font-semibold text-neutral-200 hover:text-white transition-all cursor-pointer group/view"
+                    className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.1] hover:border-purple-400/40 text-xs font-semibold text-neutral-200 hover:text-white transition-all cursor-pointer group/view whitespace-nowrap"
                   >
                     <Eye className="w-3.5 h-3.5 text-purple-400 group-hover/view:scale-110 transition-transform" />
                     <span>View PDF</span>
@@ -256,7 +250,7 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white text-black hover:bg-neutral-200 text-xs font-bold transition-all shadow-md cursor-pointer"
+                    className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl bg-white text-black hover:bg-neutral-200 text-xs font-bold transition-all shadow-md cursor-pointer whitespace-nowrap"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>Download PDF</span>
@@ -268,17 +262,17 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
         </AnimatePresence>
       </motion.div>
 
-      {/* PDF Certificate Document Viewer Modal */}
+      {/* PDF Certificate Document Viewer Modal (z-[100] to sit strictly above top fixed Navbar) */}
       <AnimatePresence>
         {selectedCertForPdf && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-2.5 sm:p-6 overflow-y-auto">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedCertForPdf(null)}
-              className="fixed inset-0 bg-black/85 backdrop-blur-xl"
+              className="fixed inset-0 bg-black/90 backdrop-blur-xl"
             />
 
             {/* Modal Container */}
@@ -287,26 +281,43 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-4xl rounded-3xl bg-[#0a0a14]/95 border border-white/[0.12] backdrop-blur-2xl shadow-[0_30px_70px_rgba(0,0,0,0.9)] p-4 sm:p-6 my-auto z-10 flex flex-col max-h-[92vh]"
+              className="relative w-full max-w-4xl rounded-2xl sm:rounded-3xl bg-[#090912] border border-white/[0.14] shadow-[0_30px_70px_rgba(0,0,0,0.95)] p-3.5 sm:p-6 my-auto z-10 flex flex-col max-h-[92vh] overflow-hidden"
             >
-              {/* Modal Top Bar */}
-              <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400">
-                    <FileText className="w-5 h-5 text-rose-400" />
+              {/* Dedicated Fixed Close Button in Top-Right */}
+              <button
+                onClick={() => setSelectedCertForPdf(null)}
+                className="absolute top-3 right-3 sm:top-5 sm:right-5 p-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] text-neutral-300 hover:text-white border border-white/[0.1] transition-colors z-30 cursor-pointer"
+                aria-label="Close PDF Viewer"
+              >
+                <X className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+
+              {/* Modal Top Header Bar */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 sm:pb-4 border-b border-white/[0.08] mb-3 sm:mb-4 pr-11 sm:pr-14 gap-2.5 sm:gap-3">
+                <div className="flex items-start gap-2.5 sm:gap-3">
+                  <div className="p-2 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 shrink-0 mt-0.5 sm:mt-0">
+                    <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-rose-400" />
                   </div>
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold text-white leading-tight">
+                    <h3 className="text-sm sm:text-lg font-bold text-white leading-snug">
                       {selectedCertForPdf.title}
                     </h3>
-                    <div className="flex items-center gap-2 text-xs text-neutral-400 mt-0.5">
-                      <span>{selectedCertForPdf.issuer}</span>
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] sm:text-xs text-neutral-400 mt-1">
+                      <span className="font-medium text-neutral-200">
+                        {selectedCertForPdf.issuer}
+                      </span>
                       <span className="text-neutral-600">·</span>
                       <span className="font-mono-accent text-purple-300">
                         Year {selectedCertForPdf.year}
                       </span>
                       <span className="text-neutral-600">·</span>
-                      <span className="text-emerald-400 flex items-center gap-1">
+                      {selectedCertForPdf.credentialId && (
+                        <span className="font-mono text-neutral-400">
+                          ID: {selectedCertForPdf.credentialId}
+                        </span>
+                      )}
+                      <span className="text-neutral-600">·</span>
+                      <span className="text-emerald-400 font-medium inline-flex items-center gap-1">
                         <CheckCircle2 className="w-3 h-3 text-emerald-400" />{" "}
                         Verified PDF
                       </span>
@@ -314,22 +325,23 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                {/* Actions: Open in Tab, Print, Download */}
+                <div className="flex items-center gap-2 pt-1 sm:pt-0">
                   <a
                     href={selectedCertForPdf.pdfUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Open PDF in new tab"
-                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-neutral-300 hover:text-white border border-white/[0.08] text-xs font-semibold transition-all cursor-pointer"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-neutral-200 hover:text-white border border-white/[0.1] text-xs font-semibold transition-all cursor-pointer whitespace-nowrap"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <ExternalLink className="w-3.5 h-3.5 text-purple-400" />
                     <span>Open in Tab</span>
                   </a>
 
                   <button
                     onClick={handlePrintPdf}
                     title="Print Certificate"
-                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-neutral-300 hover:text-white border border-white/[0.08] text-xs font-semibold transition-all cursor-pointer"
+                    className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-neutral-200 hover:text-white border border-white/[0.1] text-xs font-semibold transition-all cursor-pointer"
                   >
                     <Printer className="w-3.5 h-3.5" />
                     <span>Print</span>
@@ -338,39 +350,99 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
                   <a
                     href={selectedCertForPdf.pdfUrl}
                     download={selectedCertForPdf.pdfFileName}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white text-black hover:bg-neutral-200 text-xs font-bold transition-all shadow-md cursor-pointer"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-white text-black hover:bg-neutral-200 text-xs font-bold transition-all shadow-md cursor-pointer whitespace-nowrap"
                   >
                     <Download className="w-3.5 h-3.5" />
-                    <span>Download</span>
+                    <span>Download PDF</span>
                   </a>
-
-                  <button
-                    onClick={() => setSelectedCertForPdf(null)}
-                    className="p-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-neutral-400 hover:text-white border border-white/[0.08] transition-colors ml-1"
-                    aria-label="Close PDF Viewer"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
                 </div>
               </div>
 
-              {/* Embedded PDF Canvas / Viewer Iframe */}
-              <div className="relative w-full flex-1 min-h-[380px] sm:min-h-[500px] rounded-2xl overflow-hidden bg-[#0c0c16] border border-white/[0.08] shadow-inner flex items-center justify-center">
+              {/* Certificate Viewer: Desktop iframe + Mobile responsive SVG/HTML Certificate Canvas */}
+              <div className="relative w-full flex-1 min-h-[360px] sm:min-h-[500px] rounded-xl sm:rounded-2xl overflow-hidden bg-[#0c0c16] border border-white/[0.08] shadow-inner flex flex-col justify-center">
+                {/* 1. Desktop Interactive Iframe (hidden on small mobile screens to prevent gray box) */}
                 <iframe
                   id="pdf-preview-frame"
-                  src={`${selectedCertForPdf.pdfUrl || activePdfUrl}#toolbar=0&navpanes=0&scrollbar=1`}
+                  src={`${selectedCertForPdf.pdfUrl}#toolbar=0&navpanes=0&scrollbar=1`}
                   title={`${selectedCertForPdf.title} PDF`}
-                  className="w-full h-full min-h-[420px] sm:min-h-[520px] border-0 rounded-2xl"
+                  className="hidden sm:block w-full h-full min-h-[460px] sm:min-h-[520px] border-0 rounded-2xl"
                 />
+
+                {/* 2. Mobile Native Certificate Canvas (replaces the mobile browser blank gray box with authentic certificate styling) */}
+                <div className="sm:hidden flex flex-col justify-between p-4 bg-[#0a0a14] border-2 border-amber-500/40 rounded-xl relative overflow-hidden h-full min-h-[380px]">
+                  {/* Subtle inner parchment border */}
+                  <div className="absolute inset-1.5 border border-white/[0.08] rounded-lg pointer-events-none" />
+
+                  {/* Mobile Certificate Top */}
+                  <div className="text-center pt-2 relative z-10">
+                    <div className="text-[9px] font-mono-accent uppercase tracking-widest text-neutral-400">
+                      OFFICIAL VERIFIED CERTIFICATE OF ACCREDITATION
+                    </div>
+                    <div className="text-sm font-bold text-amber-400 mt-1 uppercase tracking-wide">
+                      {selectedCertForPdf.issuer}
+                    </div>
+                    <div className="w-12 h-[1px] bg-amber-500/40 mx-auto mt-1 mb-2" />
+                    <div className="text-[10px] text-neutral-400 italic">
+                      This is to certify that
+                    </div>
+                    <div className="text-base font-extrabold text-white mt-0.5 tracking-wide">
+                      BRYAN TAPEL
+                    </div>
+                    <div className="w-20 h-[1px] bg-indigo-500/50 mx-auto mt-0.5 mb-2" />
+                  </div>
+
+                  {/* Mobile Certificate Center: Title & Seal */}
+                  <div className="text-center my-auto py-2 relative z-10">
+                    <div className="text-[10px] text-neutral-400">
+                      has demonstrated verified competency and mastery in
+                    </div>
+                    <div className="text-sm font-bold text-amber-200 mt-1 px-2 leading-snug">
+                      {selectedCertForPdf.title}
+                    </div>
+
+                    <div className="text-[10px] text-neutral-400 mt-1.5 font-mono">
+                      {selectedCertForPdf.category} · Conferred{" "}
+                      {selectedCertForPdf.year}
+                    </div>
+
+                    {/* Official Gold Seal */}
+                    <div className="w-12 h-12 rounded-full bg-amber-500/10 border-2 border-amber-500/40 flex flex-col items-center justify-center mx-auto mt-3 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                      <ShieldCheck className="w-4 h-4 text-amber-400" />
+                      <span className="text-[7px] font-bold text-amber-400 font-mono tracking-tighter">
+                        VERIFIED
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Mobile Certificate Bottom: Signatures, ID & Direct Action */}
+                  <div className="pt-2 border-t border-white/[0.08] relative z-10 space-y-2">
+                    <div className="flex items-center justify-between text-[9px] text-neutral-400 font-mono">
+                      <span>ID: {selectedCertForPdf.credentialId}</span>
+                      <span className="text-emerald-400">Status: Active</span>
+                    </div>
+
+                    {/* Direct Fullscreen Native PDF prompt */}
+                    <a
+                      href={selectedCertForPdf.pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-200 text-xs font-semibold transition-all"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Open Fullscreen PDF in Mobile Browser</span>
+                    </a>
+                  </div>
+                </div>
               </div>
 
               {/* Modal Footer Info Bar */}
-              <div className="flex items-center justify-between pt-3 mt-2 text-xs text-neutral-400">
-                <span className="font-mono text-[11px] truncate max-w-[280px] sm:max-w-md">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-2.5 sm:pt-3 mt-1 sm:mt-2 text-[11px] text-neutral-400 gap-1">
+                <span className="font-mono text-[10px] sm:text-[11px] truncate max-w-[260px] sm:max-w-md">
                   {selectedCertForPdf.pdfFileName}
                 </span>
-                <span className="text-[11px] text-neutral-500 font-mono-accent">
-                  Conferred to Bryan Tapel · {selectedCertForPdf.year}
+                <span className="text-[10px] sm:text-[11px] text-neutral-500 font-mono-accent">
+                  Category: {selectedCertForPdf.category} · Conferred Year{" "}
+                  {selectedCertForPdf.year}
                 </span>
               </div>
             </motion.div>
