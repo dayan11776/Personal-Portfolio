@@ -430,7 +430,7 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
         "Django Rest Framework",
       ],
       featured: false,
-      link: "https://crud-django-git-main-dayan11776s-projects.vercel.app/",
+      link: "https://crud-django-livid.vercel.app/",
       github: "https://github.com/dayan11776/CRUD_Django",
       // colSpan: 1, // This project spans 1 column in the grid
     },
