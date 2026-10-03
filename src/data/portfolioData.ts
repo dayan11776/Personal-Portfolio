@@ -97,7 +97,7 @@ import Construction from "../assets/images/Construction.png";
 import Robot from "../assets/images/Robot.png";
 import SneakerShoes from "../assets/images/SneakerShoes.png";
 import CRUDFirebase from "../assets/images/CRUDFirebase.png";
-import CRUDDjango from "../assets/images/CRUDDjango.png";
+import CRUDDjango from "../assets/images/crudDjango.png";
 import { col } from "motion/react-client";
 
 export const HERO_IMAGES = {
