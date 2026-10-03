@@ -97,6 +97,7 @@ import Construction from "../assets/images/Construction.png";
 import Robot from "../assets/images/Robot.png";
 import SneakerShoes from "../assets/images/SneakerShoes.png";
 import CRUDFirebase from "../assets/images/CRUDFirebase.png";
+import CRUDDjango from "../assets/images/CRUDDjango.png";
 import { col } from "motion/react-client";
 
 export const HERO_IMAGES = {
@@ -109,6 +110,7 @@ export const HERO_IMAGES = {
   Robot: Robot,
   SneakerShoes: SneakerShoes,
   CRUDFirebase: CRUDFirebase,
+  CRUDDjango: CRUDDjango,
 };
 
 export const ABOUT_DATA = {
@@ -408,6 +410,28 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       featured: false,
       link: "https://crud-firebase-beta-one.vercel.app/",
       github: "https://github.com/dayan11776/CRUDFirebase",
+      // colSpan: 1, // This project spans 1 column in the grid
+    },
+    {
+      id: "CRUD Profile Management",
+      title: "CRUD Profile Management",
+      subtitle: "Manage your profiles with ease",
+      category: "Web Fullstack" as const,
+      year: "2026",
+      description:
+        "A CRUD Profile Management system lets you add, view, update, and delete profile information in one organized place.",
+      image: CRUDDjango,
+      tags: [
+        "Vite React",
+        "Typescript",
+        "Google Flow AI",
+        "ChatGPT Codex",
+        "Railway PostgreSQL",
+        "Django Rest Framework",
+      ],
+      featured: false,
+      link: "https://crud-django-git-main-dayan11776s-projects.vercel.app/",
+      github: "https://github.com/dayan11776/CRUD_Django",
       // colSpan: 1, // This project spans 1 column in the grid
     },
   ],
