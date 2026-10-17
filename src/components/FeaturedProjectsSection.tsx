@@ -30,7 +30,10 @@ export const FeaturedProjectsSection: React.FC<
   const filteredProjects = FEATURED_PROJECTS_SECTION_DATA.projects.filter(
     (project) => {
       if (selectedCategory === "All") return true;
-      return project.category === selectedCategory;
+
+      return Array.isArray(project.category)
+        ? project.category.some((category) => category === selectedCategory)
+        : project.category === selectedCategory;
     },
   );
 
@@ -187,9 +190,23 @@ export const FeaturedProjectsSection: React.FC<
 
                   {/* Top Badges (Category & Year) */}
                   <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
-                    <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/[0.12] text-xs font-mono-accent text-purple-300 font-medium">
-                      {project.category}
-                    </span>
+                    {(typeof project.category === "string"
+                      ? [project.category]
+                      : project.category
+                    )
+                      .filter(
+                        (category) =>
+                          selectedCategory === "All" ||
+                          category === selectedCategory,
+                      )
+                      .map((category) => (
+                        <span
+                          key={category}
+                          className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/[0.12] text-xs font-mono-accent text-purple-300 font-medium"
+                        >
+                          {category}
+                        </span>
+                      ))}
                     <span className="px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/[0.08] text-xs font-mono-accent text-neutral-400">
                       {project.year}
                     </span>

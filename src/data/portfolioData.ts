@@ -98,6 +98,7 @@ import Robot from "../assets/images/Robot.png";
 import SneakerShoes from "../assets/images/SneakerShoes.png";
 import CRUDFirebase from "../assets/images/CRUDFirebase.png";
 import CRUDDjango from "../assets/images/crudDjango.png";
+import Stride from "../assets/images/Stride.png";
 import { col } from "motion/react-client";
 
 export const HERO_IMAGES = {
@@ -111,6 +112,7 @@ export const HERO_IMAGES = {
   SneakerShoes: SneakerShoes,
   CRUDFirebase: CRUDFirebase,
   CRUDDjango: CRUDDjango,
+  Stride: Stride,
 };
 
 export const ABOUT_DATA = {
@@ -432,6 +434,28 @@ export const FEATURED_PROJECTS_SECTION_DATA = {
       featured: false,
       link: "https://crud-django-livid.vercel.app/",
       github: "https://github.com/dayan11776/CRUD_Django",
+      // colSpan: 1, // This project spans 1 column in the grid
+    },
+    {
+      id: "Stride",
+      title: "Stride",
+      subtitle:
+        "A Footwear E-commerce App with AI-powered features for a personalized shopping experience.",
+      category: ["Web Fullstack", "E-Commerce"] as const,
+      year: "2026",
+      description:
+        "Footwear e-commerce website, using Claude and OpenAI Codex to provide personalized recommendations and a seamless shopping experience.",
+      image: Stride,
+      tags: [
+        "React Vite",
+        "Django Rest Framework",
+        "Claude AI",
+        "ChatGPT Codex",
+        "PostgreSQL",
+      ],
+      featured: false,
+      link: "https://stride-shop-phi.vercel.app/",
+      github: "https://github.com/dayan11776/stride-shop",
       // colSpan: 1, // This project spans 1 column in the grid
     },
   ],
